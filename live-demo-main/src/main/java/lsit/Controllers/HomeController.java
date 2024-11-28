@@ -2,6 +2,8 @@ package lsit.Controllers;
 
 import java.util.List;
 
+import lsit.Repositories.BrandRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,7 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HomeController {
-    
+    @Autowired
+    private BeverageController beverageController;
+
+    @Autowired
+    private BrandRepository brandRepository;
+
     @GetMapping("/")
     public ResponseEntity get(){
         return ResponseEntity.ok("Hello World!");

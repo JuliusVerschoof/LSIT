@@ -35,7 +35,7 @@ public class ContractController {
 
     @PutMapping("/{id}")
     public Contract update(@PathVariable("id") UUID id, @RequestBody Contract contract) {
-        contract.id = id;
+        contract.setId(id);
         contractRepository.update(contract);
         return contract;
     }

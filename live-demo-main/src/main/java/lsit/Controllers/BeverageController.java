@@ -40,7 +40,7 @@ public class BeverageController {
 
     @PutMapping("/beverages/{id}")
     public Beverage update(@PathVariable("id") UUID id, @RequestBody Beverage b) {
-        b.id = id;
+        b.setId(id);
         beverageRepository.update(b);
         return b;
     }

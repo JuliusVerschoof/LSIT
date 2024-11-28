@@ -35,7 +35,7 @@ public class CustomerController {
 
     @PutMapping("/{id}")
     public Customer update(@PathVariable("id") UUID id, @RequestBody Customer customer) {
-        customer.id = id;
+        customer.setId(id);
         customerRepository.update(customer);
         return customer;
     }

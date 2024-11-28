@@ -35,7 +35,7 @@ public class SupplierController {
 
     @PutMapping("/{id}")
     public Supplier update(@PathVariable("id") UUID id, @RequestBody Supplier supplier) {
-        supplier.id = id;
+        supplier.setId(id);
         supplierRepository.update(supplier);
         return supplier;
     }

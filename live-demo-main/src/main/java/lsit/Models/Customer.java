@@ -3,6 +3,27 @@ package lsit.Models;
 import java.util.UUID;
 
 public class Customer {
-    public UUID id;
-    public String name;
+    private  UUID id;
+    private  String name;
+
+    public Customer(UUID id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 }
