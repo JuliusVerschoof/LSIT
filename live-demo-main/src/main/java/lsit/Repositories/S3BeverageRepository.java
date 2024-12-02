@@ -27,8 +27,9 @@ import software.amazon.awssdk.services.s3.model.S3Object;
 public class S3BeverageRepository implements IBeverageRepository {
     private static final String BUCKET = "beverage_repository";
     private static final String PREFIX = "beverage-store/beverages/";
-    private static final String ACCESS_KEY = "";
-    private static final String SECRET_KEY = "";
+    private static final String ACCESS_KEY = "";//GOOGBGGBLGJ3O4CIDWQYOARW
+    private static final String SECRET_KEY = "";//NVOluQ85iCEb+x6XNaF04KPvLa3u8dswmUB/Pqoa
+
     private static final String ENDPOINT_URL = "https://storage.googleapis.com";
 
     private final S3Client s3client;
