@@ -24,11 +24,11 @@ import software.amazon.awssdk.services.s3.model.S3Object;
 
 @Primary
 @Repository
-public class S3BeverageRepository implements BeverageRepositoryInterface {
-    private static final String BUCKET = "lsit-example-bucket";
+public class S3BeverageRepository implements IBeverageRepository {
+    private static final String BUCKET = "beverage_repository";
     private static final String PREFIX = "beverage-store/beverages/";
-    private static final String ACCESS_KEY = "your-access-key";
-    private static final String SECRET_KEY = "your-secret-key";
+    private static final String ACCESS_KEY = "";
+    private static final String SECRET_KEY = "";
     private static final String ENDPOINT_URL = "https://storage.googleapis.com";
 
     private final S3Client s3client;

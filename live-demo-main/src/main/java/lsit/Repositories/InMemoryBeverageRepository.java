@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import lsit.Models.Beverage;
 
 @Repository
-public class InMemoryBeverageRepository implements BeverageRepositoryInterface {
+public class InMemoryBeverageRepository implements IBeverageRepository {
     private final HashMap<UUID, Beverage> beverages = new HashMap<>();
 
     @Override

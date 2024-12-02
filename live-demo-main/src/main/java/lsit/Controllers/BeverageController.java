@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lsit.Models.Beverage;
-import lsit.Repositories.BeverageRepository;
+import lsit.Repositories.IBeverageRepository;
 
 @RestController
 public class BeverageController {
 
-    private final BeverageRepository beverageRepository;
+    IBeverageRepository beverageRepository;
 
-    public BeverageController(BeverageRepository beverageRepository) {
+    public BeverageController(IBeverageRepository beverageRepository) {
         this.beverageRepository = beverageRepository;
     }
 
