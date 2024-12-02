@@ -29,15 +29,21 @@ public class ContractController {
 
     @PostMapping
     public Contract add(@RequestBody Contract contract) {
-        contractRepository.add(contract);
-        return contract;
+        if (contractRepository.check(contract)) {
+            contractRepository.add(contract);
+            return contract;
+        }
+        return null;
     }
 
     @PutMapping("/{id}")
     public Contract update(@PathVariable("id") UUID id, @RequestBody Contract contract) {
-        contract.setId(id);
-        contractRepository.update(contract);
-        return contract;
+        if(contractRepository.check(contract)){
+            contract.setId(id);
+            contractRepository.update(contract);
+            return contract;
+        }
+        return null;
     }
 
     @DeleteMapping("/{id}")

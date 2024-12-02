@@ -3,6 +3,8 @@ package lsit.Repositories;
 import lsit.Models.Contract;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,5 +46,17 @@ public class ContractRepository {
 
     public List<Contract> list(){
         return new ArrayList<>(contracts.values());
+    }
+
+    public boolean check(Contract contract) {
+        String startDateString = contract.getStartDate();
+        String endDateString = contract.getEndDate();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate startDate = LocalDate.parse(startDateString, formatter);
+        LocalDate endDate = LocalDate.parse(endDateString, formatter);
+        LocalDate currentDate = LocalDate.now();
+
+        return (currentDate.isEqual(startDate) || currentDate.isAfter(startDate)) &&
+                (currentDate.isEqual(endDate) || currentDate.isBefore(endDate));
     }
 }

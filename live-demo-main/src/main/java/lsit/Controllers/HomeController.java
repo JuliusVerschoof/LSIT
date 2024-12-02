@@ -17,6 +17,9 @@ public class HomeController {
     @Autowired
     private BrandRepository brandRepository;
 
+    @Autowired
+    private ContractController contractController;
+
     @GetMapping("/")
     public ResponseEntity get(){
         return ResponseEntity.ok("Hello World!");
