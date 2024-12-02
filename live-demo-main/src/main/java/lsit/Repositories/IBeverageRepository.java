@@ -3,7 +3,7 @@ package lsit.Repositories;
 import java.util.*;
 import lsit.Models.Beverage;
 
-public interface BeverageRepositoryInterface {
+public interface IBeverageRepository {
     void add(Beverage beverage);
     Beverage get(UUID id);
     void remove(UUID id);
