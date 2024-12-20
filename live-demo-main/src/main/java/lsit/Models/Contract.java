@@ -14,6 +14,10 @@ public class Contract {
     private  String dayOfWeek;
     private  HashMap<Beverage,Integer> products;
 
+    public Contract(){
+        
+    }
+
     public Contract(UUID id, String clientName, String startDate, String endDate, String dayOfWeek) {
         this.id = id;
         this.clientName = clientName;

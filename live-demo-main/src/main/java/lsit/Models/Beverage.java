@@ -8,7 +8,9 @@ public class Beverage {
     private double sellPrice; //Price for customer
     private double buyPrice; //Price from Supplier
     private int volume; //in ml
+    public Beverage(){
 
+    }
     public Beverage(UUID id, String name, double sellPrice, double buyPrice, int volume) {
         this.id = id;
         this.name = name;

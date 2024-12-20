@@ -5,15 +5,15 @@ import java.util.*;
 import org.springframework.web.bind.annotation.*;
 
 import lsit.Models.Customer;
-import lsit.Repositories.CustomerRepository; //assuming we get a customerRepository
+import lsit.Repositories.ICustomerRepository; //assuming we get a customerRepository
 
 @RestController
 @RequestMapping("/customers")
 public class CustomerController {
 
-    private final CustomerRepository customerRepository;
+    ICustomerRepository customerRepository;
 
-    public CustomerController(CustomerRepository customerRepository) {
+    public CustomerController(ICustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 

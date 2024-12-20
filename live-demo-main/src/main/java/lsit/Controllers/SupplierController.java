@@ -5,15 +5,15 @@ import java.util.*;
 import org.springframework.web.bind.annotation.*;
 
 import lsit.Models.Supplier;
-import lsit.Repositories.SupplierRepository; // assuming we will have a supplier repository
+import lsit.Repositories.ISupplierRepository; // assuming we will have a supplier repository
 
 @RestController
 @RequestMapping("/suppliers")
 public class SupplierController {
 
-    private final SupplierRepository supplierRepository;
+    ISupplierRepository supplierRepository;
 
-    public SupplierController(SupplierRepository supplierRepository) {
+    public SupplierController(ISupplierRepository supplierRepository) {
         this.supplierRepository = supplierRepository;
     }
 

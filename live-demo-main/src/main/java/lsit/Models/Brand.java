@@ -6,6 +6,10 @@ public class Brand {
     private String name;
     private  UUID id;
 
+    public Brand(){
+        
+    }
+
     public Brand(String name, UUID id) {
         this.name = name;
         this.id = id;

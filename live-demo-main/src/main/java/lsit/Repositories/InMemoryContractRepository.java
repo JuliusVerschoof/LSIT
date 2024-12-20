@@ -11,43 +11,42 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public class ContractRepository {
-    static HashMap<UUID, Contract> contracts = new HashMap<>();
+public class InMemoryContractRepository implements IContractRepository {
+    private final HashMap<UUID, Contract> contracts = new HashMap<>();
 
-    public void add(Contract contract){
+    @Override
+    public void add(Contract contract) {
         contract.setId(UUID.randomUUID());
         contracts.put(contract.getId(), contract);
     }
 
-    public Contract get(UUID id){
+    @Override
+    public Contract get(UUID id) {
         return contracts.get(id);
     }
 
-    public void remove(UUID id){
+    @Override
+    public void remove(UUID id) {
         contracts.remove(id);
     }
 
-    public void update(Contract updatedContract){
-        if (updatedContract != null) {
-            try {
-                Contract oldContract = contracts.get(updatedContract.getId());
-                oldContract.setClientName(updatedContract.getClientName());
-                oldContract.setDayOfWeek(updatedContract.getDayOfWeek());
-                oldContract.setEndDate(updatedContract.getEndDate());
-                oldContract.setStartDate(updatedContract.getStartDate());
-            }catch (Exception e){
-                System.err.println("Error updating contract: " + e.getMessage());
-            }
-        }else{
-            System.err.println("Contract is null");
+    @Override
+    public void update(Contract updatedContract) {
+        Contract oldContract = contracts.get(updatedContract.getId());
+        if (oldContract != null) {
+            oldContract.setClientName(updatedContract.getClientName());
+            oldContract.setDayOfWeek(updatedContract.getDayOfWeek());
+            oldContract.setStartDate(updatedContract.getStartDate());
+            oldContract.setEndDate(updatedContract.getEndDate());
         }
-
     }
 
-    public List<Contract> list(){
+    @Override
+    public List<Contract> list() {
         return new ArrayList<>(contracts.values());
     }
 
+    @Override
     public boolean check(Contract contract) {
         String startDateString = contract.getStartDate();
         String endDateString = contract.getEndDate();

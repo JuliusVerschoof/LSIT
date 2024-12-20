@@ -2,7 +2,7 @@ package lsit.Controllers;
 
 import java.util.List;
 
-import lsit.Repositories.BrandRepository;
+import lsit.Repositories.IBrandRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -15,7 +15,7 @@ public class HomeController {
     private BeverageController beverageController;
 
     @Autowired
-    private BrandRepository brandRepository;
+    IBrandRepository brandRepository;
 
     @Autowired
     private ContractController contractController;

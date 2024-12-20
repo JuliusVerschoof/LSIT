@@ -8,6 +8,10 @@ public class Supplier {
     private  String name;
     private  List<Beverage> assortment;
 
+    public Supplier() {
+    }
+
+    // Parameterized constructor
     public Supplier(UUID id, String name, List<Beverage> assortment) {
         this.id = id;
         this.name = name;

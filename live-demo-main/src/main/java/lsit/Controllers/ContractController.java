@@ -5,15 +5,15 @@ import java.util.*;
 import org.springframework.web.bind.annotation.*;
 
 import lsit.Models.Contract;
-import lsit.Repositories.ContractRepository; // Assuming we get contractrepository 
+import lsit.Repositories.IContractRepository; // Assuming we get contractrepository 
 
 @RestController
 @RequestMapping("/contracts")
 public class ContractController {
 
-    private final ContractRepository contractRepository;
+    IContractRepository contractRepository;
 
-    public ContractController(ContractRepository contractRepository) {
+    public ContractController(IContractRepository contractRepository) {
         this.contractRepository = contractRepository;
     }
 

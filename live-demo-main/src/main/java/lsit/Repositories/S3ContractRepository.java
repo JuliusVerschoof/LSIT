@@ -2,40 +2,34 @@ package lsit.Repositories;
 
 import java.net.URI;
 import java.util.*;
-
 import org.springframework.stereotype.Repository;
 import org.springframework.context.annotation.Primary;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import lsit.Models.Beverage;
+import lsit.Models.Contract;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.AwsCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
-import software.amazon.awssdk.services.s3.model.GetObjectRequest;
-import software.amazon.awssdk.services.s3.model.ListObjectsRequest;
-import software.amazon.awssdk.services.s3.model.PutObjectRequest;
-import software.amazon.awssdk.services.s3.model.S3Object;
+import software.amazon.awssdk.services.s3.model.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Primary
 @Repository
-public class S3BeverageRepository implements IBeverageRepository {
-    private static final String BUCKET = "beverage_repository";
-    private static final String PREFIX = "beverage-store/beverages/";
+public class S3ContractRepository implements IContractRepository {
+    private static final String BUCKET = "contract_repository";
+    private static final String PREFIX = "contract-store/contracts/";
     private static final String ACCESS_KEY = " ";//GOOGBGGBLGJ3O4CIDWQYOARW";//GOOGBGGBLGJ3O4CIDWQYOARW
     private static final String SECRET_KEY = " ";//NVOluQ85iCEb+x6XNaF04KPvLa3u8dswmUB/Pqoa";//NVOluQ85iCEb+x6XNaF04KPvLa3u8dswmUB/Pqoa
-
     private static final String ENDPOINT_URL = "https://storage.googleapis.com";
 
     private final S3Client s3client;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public S3BeverageRepository() {
+    public S3ContractRepository() {
         AwsCredentials awsCredentials = AwsBasicCredentials.create(ACCESS_KEY, SECRET_KEY);
         s3client = S3Client.builder()
                 .credentialsProvider(StaticCredentialsProvider.create(awsCredentials))
@@ -45,17 +39,16 @@ public class S3BeverageRepository implements IBeverageRepository {
     }
 
     @Override
-    public void add(Beverage beverage) {
+    public void add(Contract contract) {
         try {
-            beverage.setId(UUID.randomUUID());
-            String beverageJson = objectMapper.writeValueAsString(beverage);
-
+            contract.setId(UUID.randomUUID());
+            String contractJson = objectMapper.writeValueAsString(contract);
             s3client.putObject(
                     PutObjectRequest.builder()
                             .bucket(BUCKET)
-                            .key(PREFIX + beverage.getId())
+                            .key(PREFIX + contract.getId())
                             .build(),
-                    RequestBody.fromString(beverageJson)
+                    RequestBody.fromString(contractJson)
             );
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -63,7 +56,7 @@ public class S3BeverageRepository implements IBeverageRepository {
     }
 
     @Override
-    public Beverage get(UUID id) {
+    public Contract get(UUID id) {
         try {
             var objectBytes = s3client.getObject(
                     GetObjectRequest.builder()
@@ -72,7 +65,7 @@ public class S3BeverageRepository implements IBeverageRepository {
                             .build()
             ).readAllBytes();
 
-            return objectMapper.readValue(objectBytes, Beverage.class);
+            return objectMapper.readValue(objectBytes, Contract.class);
         } catch (Exception e) {
             return null;
         }
@@ -89,17 +82,17 @@ public class S3BeverageRepository implements IBeverageRepository {
     }
 
     @Override
-    public void update(Beverage beverage) {
+    public void update(Contract updatedContract) {
         try {
-            if (get(beverage.getId()) == null) return;
+            if (get(updatedContract.getId()) == null) return;
 
-            String beverageJson = objectMapper.writeValueAsString(beverage);
+            String contractJson = objectMapper.writeValueAsString(updatedContract);
             s3client.putObject(
                     PutObjectRequest.builder()
                             .bucket(BUCKET)
-                            .key(PREFIX + beverage.getId())
+                            .key(PREFIX + updatedContract.getId())
                             .build(),
-                    RequestBody.fromString(beverageJson)
+                    RequestBody.fromString(contractJson)
             );
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -107,8 +100,8 @@ public class S3BeverageRepository implements IBeverageRepository {
     }
 
     @Override
-    public List<Beverage> list() {
-        List<Beverage> beverages = new ArrayList<>();
+    public List<Contract> list() {
+        List<Contract> contracts = new ArrayList<>();
         List<S3Object> objects = s3client.listObjects(
                 ListObjectsRequest.builder()
                         .bucket(BUCKET)
@@ -119,15 +112,27 @@ public class S3BeverageRepository implements IBeverageRepository {
         for (S3Object obj : objects) {
             try {
                 UUID id = UUID.fromString(obj.key().substring(PREFIX.length()));
-                Beverage beverage = get(id);
-                if (beverage != null) {
-                    beverages.add(beverage);
+                Contract contract = get(id);
+                if (contract != null) {
+                    contracts.add(contract);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        return beverages;
+        return contracts;
+    }
+
+    @Override
+    public boolean check(Contract contract) {
+        String startDateString = contract.getStartDate();
+        String endDateString = contract.getEndDate();
+        LocalDate startDate = LocalDate.parse(startDateString);
+        LocalDate endDate = LocalDate.parse(endDateString);
+        LocalDate currentDate = LocalDate.now();
+
+        return (currentDate.isEqual(startDate) || currentDate.isAfter(startDate)) &&
+                (currentDate.isEqual(endDate) || currentDate.isBefore(endDate));
     }
 }

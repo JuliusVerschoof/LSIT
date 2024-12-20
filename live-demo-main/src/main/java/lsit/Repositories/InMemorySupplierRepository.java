@@ -1,7 +1,6 @@
 package lsit.Repositories;
 
 import lsit.Models.Supplier;
-import lsit.Models.Supplier;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -10,28 +9,35 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public class SupplierRepository {
-    static HashMap<UUID, Supplier> suppliers = new HashMap<>();
+public class InMemorySupplierRepository implements ISupplierRepository {
+    private final HashMap<UUID, Supplier> suppliers = new HashMap<>();
 
-    public void add(Supplier supplier){
+    @Override
+    public void add(Supplier supplier) {
         supplier.setId(UUID.randomUUID());
         suppliers.put(supplier.getId(), supplier);
     }
 
-    public Supplier get(UUID id){
+    @Override
+    public Supplier get(UUID id) {
         return suppliers.get(id);
     }
 
-    public void remove(UUID id){
+    @Override
+    public void remove(UUID id) {
         suppliers.remove(id);
     }
 
-    public void update(Supplier updatedSupplier){
+    @Override
+    public void update(Supplier updatedSupplier) {
         Supplier oldSupplier = suppliers.get(updatedSupplier.getId());
-        oldSupplier.setName(updatedSupplier.getName());
+        if (oldSupplier != null) {
+            oldSupplier.setName(updatedSupplier.getName());
+        }
     }
 
-    public List<Supplier> list(){
+    @Override
+    public List<Supplier> list() {
         return new ArrayList<>(suppliers.values());
     }
 }
