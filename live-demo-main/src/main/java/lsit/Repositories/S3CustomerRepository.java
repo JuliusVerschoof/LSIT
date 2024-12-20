@@ -20,8 +20,8 @@ import software.amazon.awssdk.services.s3.model.*;
 public class S3CustomerRepository implements ICustomerRepository {
     private static final String BUCKET = "customer_repository";
     private static final String PREFIX = "customer-store/customers/";
-    private static final String ACCESS_KEY = " ";//GOOGBGGBLGJ3O4CIDWQYOARW";//GOOGBGGBLGJ3O4CIDWQYOARW
-    private static final String SECRET_KEY = " ";//NVOluQ85iCEb+x6XNaF04KPvLa3u8dswmUB/Pqoa";//NVOluQ85iCEb+x6XNaF04KPvLa3u8dswmUB/Pqoa
+    private static final String ACCESS_KEY = " ";
+    private static final String SECRET_KEY = " ";
     private static final String ENDPOINT_URL = "https://storage.googleapis.com";
 
     private final S3Client s3client;

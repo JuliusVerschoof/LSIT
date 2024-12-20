@@ -15,15 +15,15 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.*;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+
 
 @Primary
 @Repository
 public class S3ContractRepository implements IContractRepository {
     private static final String BUCKET = "contract_repository";
     private static final String PREFIX = "contract-store/contracts/";
-    private static final String ACCESS_KEY = " ";//GOOGBGGBLGJ3O4CIDWQYOARW";//GOOGBGGBLGJ3O4CIDWQYOARW
-    private static final String SECRET_KEY = " ";//NVOluQ85iCEb+x6XNaF04KPvLa3u8dswmUB/Pqoa";//NVOluQ85iCEb+x6XNaF04KPvLa3u8dswmUB/Pqoa
+    private static final String ACCESS_KEY = " ";
+    private static final String SECRET_KEY = " ";
     private static final String ENDPOINT_URL = "https://storage.googleapis.com";
 
     private final S3Client s3client;
