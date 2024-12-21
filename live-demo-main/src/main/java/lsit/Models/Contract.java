@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-// Assumption
+// Assumption, Test
 public class Contract {
     private  UUID id;
     private  String clientName;
