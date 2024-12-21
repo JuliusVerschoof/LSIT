@@ -1,0 +1,44 @@
+variables:
+  TF_STATE_NAME: gcp
+  TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/${TF_STATE_NAME}
+  TF_HTTP_ADDRESS: ${TF_ADDRESS}
+  TF_HTTP_LOCK_ADDRESS: ${TF_ADDRESS}/lock
+  TF_HTTP_LOCK_METHOD: POST
+  TF_HTTP_UNLOCK_ADDRESS: ${TF_ADDRESS}/lock
+  TF_HTTP_UNLOCK_METHOD: DELETE
+  TF_HTTP_USERNAME: gitlab-ci-token
+  TF_HTTP_PASSWORD: ${CI_JOB_TOKEN}
+  TF_HTTP_RETRY_WAIT_MIN: 5
+
+stages:
+  - build
+  - setup
+  - teardown
+
+build:
+  stage: build
+  script:
+    - echo ${CI_REGISTRY_PASSWORD} | docker login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} --password-stdin
+    - docker buildx build --tag "${CI_REGISTRY_IMAGE}:latest" --push .
+  rules:
+    - changes:
+       - .gitlab-ci.yml
+       - Dockerfile
+       - pom.xml
+       - src/**/*
+
+setup:
+  stage: setup
+  script:
+    - cd inf
+    - terraform init -input=false
+    - terraform plan -input=false -out tfplan
+    - terraform apply -input=false tfplan
+
+teardown:
+  stage: teardown
+  script:
+    - cd inf
+    - terraform init -input=false
+    - terraform destroy -input=false -auto-approve
+  when: manual
