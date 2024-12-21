@@ -64,10 +64,10 @@ resource "terraform_data" "runContainer" {
         private_key = tls_private_key.key.private_key_openssh
       }
       inline = [
-        "sudo docker pull registry.gitlab.com/lsit-ken3239/live-demo:latest",
+        "sudo docker pull registry.gitlab.com/lsit-ken3239/live-coding-spaces/lsitG-beer:latest",
         "sudo docker stop app",
         "sudo docker rm app",
-        "sudo docker run -p80:8080 --name app -d registry.gitlab.com/lsit-ken3239/live-demo:latest"
+        "sudo docker run -p80:8080 --name app -d registry.gitlab.com/lsit-ken3239/live-coding-spaces/lsitG-beer:latest"
       ]
   }
 }

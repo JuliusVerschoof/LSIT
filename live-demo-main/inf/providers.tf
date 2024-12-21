@@ -19,6 +19,6 @@ terraform {
 }
 
 provider "google" {
-  project = "lsit-ken3239"
+  project = "lsit-beer"
   region = "us-central1"
 }
